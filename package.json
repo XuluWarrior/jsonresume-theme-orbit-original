@@ -26,6 +26,6 @@
     "helper-markdown": "^1.0.0"
   },
   "devDependencies": {
-    "less": "^2.7.3"
+    "less": "^3.9.0"
   }
 }
