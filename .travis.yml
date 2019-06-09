@@ -1,8 +1,21 @@
 language: node_js
-node_js: '6'
+node_js: '8'
 
 before_install:
 - npm install -g npm@latest
+
+install:
+- npm install
+- npm install -g resume-cli
+- npm install -g @percy/agent
+
+script:
+- npm run build:styles
+- resume serve --resume=example-resume.json --port 5001 --silent &
+- sleep 2s
+- mkdir resume
+- curl http://localhost:5001 > resume/example-resume.html
+- percy snapshot resume
 
 deploy:
   provider: npm
@@ -12,3 +25,6 @@ deploy:
   on:
     tags: true
     repo: XuluWarrior/jsonresume-theme-orbit-original
+
+env:
+  secure: iX+uiuzfxv5/wzg+AMtlsqEPXaTNzRVppQ3EN61XIHYctu5gnBjhZ8JQPf0K++5erYWwGqCTRjdxm/JQzO1XExLjrwsK0aEyYrUuWeuTjQQnjXI4qOEPQIzjHXfSCWfWl2KDXrMJfdKLpAcoxnUHToKwXNv15iKL77nMUR9OmokZXmGumtli5nRvHgp7no8vlGEWyPecczVQC/RvHbNuu1jBZEmkExsI7TLLdcGQivWjZURp9NW6RbQZVSddEf+d7o0ujochx9Sjp5Il4AAJCrYdroDb1URqzZ5+4WkvXJJBUNAq/lmeMc9In08l/ZpeUvsDGusm+GKs6vrCkh8lKidXX3HNMQbI/8NH7+Ha/h1KcS6Sr7Mz+hV5kV0WcYStIFzMD2nK4uNuM0me5Dn7GVLua27Cb1M3gk15nEY9SwsAsgSSdmKwyVSXLESC3x1sDI3zbR1pYqQbVEOcm30G09+7ZTCM256RSZzi7EXZWogRenwJWO7eYVsb+y448KgjNPY9IMgcL8NWeyPZd2nTPlQng54BWeseMU1rARjM6wunje+RDqbFtdSFHqQZR0b1v5M4Im9vJvmq6bI1hy5MGYCaaarUz7cO6cDfxa/WDRNKNhDIeYXKmdxLZVOLHiDLF4I8hpbaXyZrrQN8ZInetSJ64kZigLvXqmWP2HBjtQg=
