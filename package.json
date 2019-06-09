@@ -27,5 +27,9 @@
   },
   "devDependencies": {
     "less": "^3.9.0"
+  },
+  "engineStrict" : true,
+  "engines": {
+    "node": ">=6"
   }
 }
