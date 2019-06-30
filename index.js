@@ -4,9 +4,22 @@ var Handlebars = require("handlebars");
 var utils = require('handlebars-utils');
 var marked = require('marked');
 
-Handlebars.registerHelper('markdown', function(val, locals, options) {
-	var str = utils.fn(val, locals, options);
-	var markup = marked(str);
+Handlebars.registerHelper('markdown', function(str, locals, options) {
+	if (typeof str !== 'string') {
+		options = locals;
+		locals = str;
+		str = true;
+	}
+
+	if (utils.isOptions(locals)) {
+		options = locals;
+		locals = {};
+	}
+
+	var ctx = utils.context(this, locals, options);
+	var val = utils.value(str, ctx, options);
+
+	var markup = marked(val);
 
 	// If we end up with a string wrapped in one <p> block, remove it so we don't create a new text block
 	var startEndMatch = markup.match(/^<p>(.*)<\/p>\n$/);
